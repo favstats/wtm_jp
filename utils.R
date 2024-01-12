@@ -646,6 +646,7 @@ retrieve_reports <- function(ds, coununtry) {
   
   
   dt <- expand_grid(coununtry, daysies) %>%
+    rename(country = coununtry) %>% 
     glimpse
   
   
