@@ -69,6 +69,19 @@ jobs:
         run: |
           remotes::install_github('hadley/emo')
         shell: Rscript {0}
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16.x'  # Choose the appropriate Node.js version
+
+      - name: Install dependencies
+        run: npm ci
+      - name: Install playwright browsers
+        run: npx playwright install --with-deps
+      - name: "Check Playwright CLI"
+        run: npx playwright --version
+        
       - name: "Script - Run"
         run: Rscript 'get_audiences.R' 30
       - name: "Script - Update Dashboard"
