@@ -453,6 +453,18 @@ retrieve_reports <- function(ds, coununtry) {
   unlink("node_modules", recursive = T, force = T)
   unlink("out", recursive = T, force = T)
   
+  
+  if(!("playwrightr" %in% tibble::as_tibble(installed.packages())$Package)){
+    system("conda create -n pw python=3.7")
+    system("conda activate pw")
+    system("conda config --add channels conda-forge")
+    system("conda config --add channels microsoft")
+    system("conda install playwright")
+    system("playwright install")
+    remotes::install_github("benjaminguinaudeau/playwrightr")
+    
+  }
+  
   library(playwrightr)
   # library(tidyverse)
   options(timeout=300)
@@ -486,12 +498,7 @@ retrieve_reports <- function(ds, coununtry) {
     readr,
     piggyback
   )
-  
-  
-  if(!("playwrightr" %in% tibble::as_tibble(installed.packages())$Package)){
-    remotes::install_github("benjaminguinaudeau/playwrightr")
-  }
-  
+
   
   if(Sys.info()[["sysname"]]=="Windows"){
     

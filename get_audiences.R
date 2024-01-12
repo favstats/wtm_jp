@@ -30,7 +30,7 @@ if(Sys.info()[["sysname"]]=="Windows"){
 jb <- get_targeting("7860876103", timeframe = glue::glue("LAST_90_DAYS"))
 
 new_ds <- jb %>% arrange(ds) %>% slice(1) %>% pull(ds)
-# new_ds <- "2023-01-01"
+new_ds <- "2023-01-01"
 
 try({
   latest_elex <- readRDS(paste0("data/election_dat", tf, ".rds"))
@@ -146,6 +146,7 @@ try({
   
   if(new_ds != str_remove(latest$file_name, ".rds")){
     # source("retrieve_report.R")
+    new_ds <- "2024-01-10"
     try({
       retrieve_reports(new_ds, sets$cntry)
     })
