@@ -703,7 +703,7 @@ retrieve_reports <- function(ds, coununtry) {
   rawlings <- dt %>%
     filter(country == coununtry) %>% 
     # arrange(day, country != "RU") %>%
-    filter(country %in% cntries) %>%
+    # filter(country %in% cntries) %>%
     arrange(desc(day), country) #%>%
   # anti_join(thosearethere) %>%
   # anti_join(blacklist)
