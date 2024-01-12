@@ -768,10 +768,11 @@ retrieve_reports <- function(ds, coununtry) {
           '", "method": "POST", "mode": "cors", "credentials": "include" }).then(resp => resp.text()).then(data => console.log(data));'
         )
       
-      
+      print("twitch")
       
       page_df %>% execute_script(js_code)
       Sys.sleep(.1)
+      print("apple sauce")
       
       download_url <- readLines(tmp_download_link, warn = F) %>%
         str_extract("\"https.*?\"") %>%
@@ -784,7 +785,7 @@ retrieve_reports <- function(ds, coununtry) {
           write(list(), file_name)
         }       
         
-        # print("ho")
+        print("ho")
         # print(.x)
         # debugonce(save_csv)
         # save_csv(.x, path = "blacklist.csv")
@@ -795,6 +796,7 @@ retrieve_reports <- function(ds, coununtry) {
         Sys.sleep(10)
         return("Blocked")
       } else {
+        
         # try({
         res <- download_it_now(download_url, file_name)       
         # })
