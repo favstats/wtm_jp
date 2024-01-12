@@ -109,7 +109,7 @@ try({
                  "-last_90_days"))
     }) %>% 
     unlist() %>% 
-    .[str_detect(., "last_90_days")] %>% 
+    .[str_detect(., "last_30_days")] %>% 
     # .[100:120] %>% 
     map_dfr_progress(~{
       the_assets <- httr::GET(paste0("https://github.com/favstats/meta_ad_reports/releases/expanded_assets/", .x))
@@ -144,10 +144,21 @@ try({
     slice(1) %>% 
     ungroup() 
   
+  if(new_ds != str_remove(latest$file_name, ".rds")){
+    # source("retrieve_report.R")
+    try({
+      retrieve_reports(new_ds, sets$cntry)
+    })
+  }
   
-  download.file(paste0("https://github.com/favstats/meta_ad_reports/releases/download/", sets$cntry,"-last_90_days/", latest$file_name), 
-                destfile = "report.rds"
-  )
+  if(!exists("report.rds")){
+    
+    download.file(paste0("https://github.com/favstats/meta_ad_reports/releases/download/", sets$cntry,"-last_30_days/", latest$file_name), 
+                  destfile = "report.rds"
+    )
+    
+  }
+  
   
   last7 <- readRDS("report.rds")%>% 
     mutate(sources = "report") %>% 
