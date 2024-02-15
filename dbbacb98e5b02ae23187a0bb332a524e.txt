@@ -1,0 +1,1 @@
+[JavaScript Warning: "MouseEvent.mozInputSource is deprecated. Use PointerEvent.pointerType instead." {file: "https://static.xx.fbcdn.net/rsrc.php/v3iJL94/y3/l/en_US/fnQ8kJj2yAKx7hH1f9ortRS7qtcPltHThLxKzRCRFTNPzY63U5CD65W19WWlzLv_hV6EpkUkxDXAHhi723fwty_jXC2oslRVNYePj1KYcTUQrklmtkPlI9gi-lqlG_ZmER5OMG_I4R5SqKDrwjauvB4-cCbsfL4uoNKp7.js?_nc_x=Ij3Wp8lg5Kz" line: 3163}]
