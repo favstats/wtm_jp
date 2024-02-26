@@ -30,7 +30,7 @@ if(Sys.info()[["sysname"]]=="Windows"){
 jb <- get_targeting("7860876103", timeframe = glue::glue("LAST_90_DAYS"))
 
 new_ds <- jb %>% arrange(ds) %>% slice(1) %>% pull(ds)
-new_ds <- "2023-01-01"
+# new_ds <- "2023-01-01"
 
 try({
   latest_elex <- readRDS(paste0("data/election_dat", tf, ".rds"))
@@ -77,9 +77,17 @@ country_codes <- c("AD", "AL", "AM", "AR", "AT",
                    "SK", "SM", "TR", "UA", "US", 
                    "VE", "ZA")
 
-download.file(paste0("https://data-api.whotargets.me/advertisers-export-csv?countries.alpha2=", str_to_lower(sets$cntry)), destfile = "data/wtm_advertisers.csv")
+try({
+  download.file(paste0("https://data-api.whotargets.me/advertisers-export-csv?countries.alpha2=", str_to_lower(sets$cntry)), destfile = "data/wtm_advertisers.csv")
+  
+  thedat <- read_csv("data/wtm_advertisers.csv")
+  
+})
 
-thedat <- read_csv("data/wtm_advertisers.csv")
+if(!exists("thedat")){
+  thedat <- tibble(no_data = NULL)
+}
+
 
 if(sets$cntry %in% country_codes & nrow(thedat)!=0){
   
@@ -109,7 +117,7 @@ try({
                  "-last_90_days"))
     }) %>% 
     unlist() %>% 
-    .[str_detect(., "last_30_days")] %>% 
+    .[str_detect(., "last_90_days")] %>% 
     # .[100:120] %>% 
     map_dfr_progress(~{
       the_assets <- httr::GET(paste0("https://github.com/favstats/meta_ad_reports/releases/expanded_assets/", .x))
@@ -144,22 +152,10 @@ try({
     slice(1) %>% 
     ungroup() 
   
-  if(new_ds != str_remove(latest$file_name, ".rds")){
-    # source("retrieve_report.R")
-    new_ds <- "2024-01-10"
-    try({
-      retrieve_reports(new_ds, sets$cntry)
-    })
-  }
   
-  if(!exists("report.rds")){
-    
-    download.file(paste0("https://github.com/favstats/meta_ad_reports/releases/download/", sets$cntry,"-last_30_days/", latest$file_name), 
-                  destfile = "report.rds"
-    )
-    
-  }
-  
+  download.file(paste0("https://github.com/favstats/meta_ad_reports/releases/download/", sets$cntry,"-last_90_days/", latest$file_name), 
+                destfile = "report.rds"
+  )
   
   last7 <- readRDS("report.rds")%>% 
     mutate(sources = "report") %>% 
